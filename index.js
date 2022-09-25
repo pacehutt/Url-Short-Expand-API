@@ -41,6 +41,9 @@ app.post('/short', async (req, res) => {
     {
         
     const url = req.body.url;
+
+    // check the customId at the frontend as it should be less than 8 character
+    const customId=req.body.customId;
     if(!url)
     res.status(404).send("Provide a url to shorten!");
 
@@ -53,18 +56,20 @@ app.post('/short', async (req, res) => {
         // this is preferred when hosting
     // res.status(200).send(`http://${req.hostname}/${urlExists.shortUrl}`)
 
-
     res.status(200).send(`http://${req.headers.host}/${urlExists.shortUrl}`)
     return
+
     }
 
      let dummy=shortid.generate();
      let check = await LongUrls.findOne({shortUrl:dummy})
+
+    //  Now if the shortId is already present then we will generate a new one
      if(check)
      dummy=shortid.generate();
 
-
-     const longUrls=new LongUrls({longUrl:url, shortUrl: dummy})
+     const shortenedUrl=customId?`${customId}/${dummy}`:dummy;
+     const longUrls=new LongUrls({longUrl:url, shortUrl: shortenedUrl})
      const result = await longUrls.save()
      res.send(`http://${req.headers.host}/${result.shortUrl}`);}
 
