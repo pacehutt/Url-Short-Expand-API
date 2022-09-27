@@ -30,7 +30,7 @@ catch(e)
 }
     
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('API WORKING!')
 })
 
 
@@ -83,7 +83,7 @@ app.post('/short', async (req, res) => {
 
 app.get('/:id',async (req,res,next)=>{
 
-    console.log("okey")
+   
     try
 {
    const {id}=req.params
@@ -95,13 +95,13 @@ app.get('/:id',async (req,res,next)=>{
 
     }
 
-   console.log("here")
+  
    res.redirect(result.longUrl);
 }
 
    catch(err)
    {
-    console.log("hehhe")
+   
     next(err);
    }
 
@@ -173,5 +173,5 @@ res.json(err.message || {"error":"Sorry for the inconvenience"});
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`URL Short/Expand API listening on port ${port}`)
 })
